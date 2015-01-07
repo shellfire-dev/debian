@@ -69,6 +69,12 @@ debian_control_parser()
 		# MUST update paragraphParser / field events (even to empty)
 		${debian_control_parser_raiseEndOfParagraphEvent}
 		weAreCurrentlyParsingAParagraph=0
+		
+		core_variable_array_unset debian_control_parser_fieldsInParagraph
+		core_variable_array_initialise debian_control_parser_fieldsInParagraph
+		
+		core_variable_array_unset debian_control_parser_mandatoryFields
+		core_variable_array_initialise debian_control_parser_mandatoryFields
 	}
 	
 	# This design forces read to read any trailing line which does not end in a newline
