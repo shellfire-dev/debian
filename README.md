@@ -9,10 +9,10 @@ An example user is [swaddle].
 Usage couldn't be simpler. To parse a Debian copyright file, try:-
 
 ```bash
-debian_control_parser my_callback debian_control_parser_paragraph_copyright no /usr/share/doc/swaddle/copright
+debian_control_copyright my_callback /usr/share/doc/swaddle/copright
 ```
 
-where `debian_control_parser_paragraph_copyright` is a paragraph-aware parser (Debian control files consist of one or more paragraphs of an expected kind) and `my_callback` is a function that accepts parse events:-
+where `my_callback` is a function that accepts parse events:-
 
 ```bash
 my_callback()
@@ -46,6 +46,17 @@ my_callback()
 }
 ```
 
+Of course, you can implement your own parsers by defining a paragraph handler, eg:-
+
+```bash
+debian_control_parser_myParagraphHandler()
+{
+	…
+}
+
+debian_control_parser my_callback debian_control_parser_myParagraphHandler no /usr/share/doc/swaddle/copright
+```
+
 ## Importing
 
 To import this module, add a git submodule to your repository. From the root of your git repository in the terminal, type:-
@@ -64,6 +75,42 @@ You will also need to add paths - include the module [paths.d].
 You will also need to import the [unicode] module.
 
 
+
+## Namespace `debian_control_copyright`
+
+This namespace contains the core functionality needed to parse Debian control copyright files.
+
+### To use in code
+
+If calling from another [shellfire] module, add to your shell code the line
+```bash
+core_usesIn debian/control/parser/paragraph copyright
+```
+in the global scope (ie outside of any functions). A good convention is to put it above any function that depends on functions in this module. If using it directly in a program, put this line _inside_ the `_program()` function:-
+
+```bash
+_program()
+{
+	core_usesIn debian/control/parser/paragraph copyright
+	…
+}
+```
+
+### Functions
+
+***
+#### `debian_control_copyright()`
+
+Arguments deliberately not described. Pass this function as the `paragraph` argument of `debian_control_parser()` to parse Debian copyright file.
+
+|Parameter|Value|Optional|
+|---------|-----|--------|
+|`eventHandler`|Function to handle parser events.|_No_|
+|`copyrightFilePath`|Path to Debian copyright file to parse.|_No_|
+
+See the description of `debian_control_parser()` for documentation of the `eventHandler`.
+
+***
 ## Namespace `debian_control_parser`
 
 This namespace contains the core functionality needed to access the API.
@@ -89,10 +136,14 @@ _program()
 ***
 #### `debian_control_parser()`
 
+You are advised to _not_ use this function directly, but instead use specific parsers:-
+
+* `debian_control_copyright()`
+
 |Parameter|Value|Optional|
 |---------|-----|--------|
 |`eventHandler`|Function to handle parser events.|_No_|
-|`paragraph`|Function defined to handle file subformat (paragraphs).|_No_|
+|`paragraphHandler`|Function defined to handle file subformat (paragraphs).|_No_|
 |`commentsAllowed`|Boolean. Comments are only normally allowed in `debian/control` package source files. If in doubt, use `yes`.|_No_|
 |`controlDataFilePath`|Path to Debian control file to parse.|_No_|
 
@@ -140,42 +191,14 @@ Takes no arguments. Writes to standard out the current field exactly as read whe
 
 #### `debian_control_parser_continuationEventNotWanted()`
 
-Intended for implementation of `paragraph` functions. Description omitted. May change.
+Intended for implementation of `paragraphHandler` functions. Description omitted. May change.
 
 ***
 
 #### `debian_control_parser_warning()`
 
-Intended for implementation of `paragraph` functions. Description omitted. May change.
+Intended for implementation of `paragraphHandler` functions. Description omitted. May change.
 
-
-
-## Namespace `debian_control_parser`
-
-This namespace contains the core functionality needed to access the API.
-
-### To use in code
-
-If calling from another [shellfire] module, add to your shell code the line
-```bash
-core_usesIn debian/control/parser/paragraph copyright
-```
-in the global scope (ie outside of any functions). A good convention is to put it above any function that depends on functions in this module. If using it directly in a program, put this line _inside_ the `_program()` function:-
-
-```bash
-_program()
-{
-	core_usesIn debian/control/parser/paragraph copyright
-	…
-}
-```
-
-### Functions
-
-***
-#### `debian_control_parser_paragraph_copyright()`
-
-Arguments deliberately not described. Pass this function as the `paragraph` argument of `debian_control_parser()` to parse Debian copyright file.
 
 
 
