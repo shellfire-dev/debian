@@ -166,6 +166,7 @@ debian_control_parser()
 					weAreCurrentlyParsingAParagraph=1
 				fi
 				
+				weAreCurrentlyParsingAField=1
 				debian_control_parser_fieldName="$(core_variable_trimSpaceAndHorizontalTab "${line%%:*}")"
 				debian_control_parser_fieldValueFirstLine="$(core_variable_trimSpaceAndHorizontalTab "${line#*:}")"
 				debian_control_parser_fieldValue="$debian_control_parser_fieldValueFirstLine"
