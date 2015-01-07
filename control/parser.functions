@@ -82,7 +82,7 @@ debian_control_parser()
 		# https://www.debian.org/doc/debian-policy/ch-controlfield
 		
 		# Empty lines, or lines consisting solely of space and tab, delimit paragraphs, although this seems to interfere with continuation lines
-		if [ "$(core_variable_trimSpaceAndHorizontalTab "$line")" ]; then
+		if [ -z "$(core_variable_trimSpaceAndHorizontalTab "$line")" ]; then
 			if [ $weAreCurrentlyParsingAParagraph -eq 1 ]; then
 				_debian_control_parser_endOfParagraph
 			fi
