@@ -84,14 +84,14 @@ This namespace contains the core functionality needed to parse Debian control co
 
 If calling from another [shellfire] module, add to your shell code the line
 ```bash
-core_usesIn debian/control/parser/paragraph copyright
+core_usesIn debian/control copyright
 ```
 in the global scope (ie outside of any functions). A good convention is to put it above any function that depends on functions in this module. If using it directly in a program, put this line _inside_ the `_program()` function:-
 
 ```bash
 _program()
 {
-	core_usesIn debian/control/parser/paragraph copyright
+	core_usesIn debian/control copyright
 	…
 }
 ```
