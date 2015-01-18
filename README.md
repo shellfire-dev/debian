@@ -4,6 +4,10 @@ This module provides a simple framework for parsing Debian constructs. Currently
 
 An example user is [swaddle].
 
+## Compatibility
+
+* Tag [`release_2015.0117.1750-1`](https://github.com/shellfire-dev/debian/releases/tag/release_2015.0117.1750-1) is compatible with [shellfire] release [`release_2015.0117.1750-1`](https://github.com/shellfire-dev/shellfire/releases/tag/release_2015.0117.1750-1).
+
 ## Overview
 
 Usage couldn't be simpler. To parse a Debian copyright file, try:-
